@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Design tokens live here, once. Components consume them through the
+  Tailwind color/font extensions in tailwind.config.js -- so almost no
+  component should ever need a one-off media query or repeated
+  breakpoint logic. Fluid type (clamp) + a single container pattern
+  handles responsiveness across phone -> ultrawide without per-page CSS.
+*/
+:root {
+  --bg-0: #0a0a0a;
+  --bg-1: #0d0d0d;
+  --surface-1: #111111;
+  --surface-2: #161616;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --text-primary: #f2f2f0;
+  --text-secondary: #a3a29c;
+  --text-muted: #6b6a65;
+
+  /* soft sage green -- deliberately desaturated, not neon hacker-green */
+  --accent: #7fae95;
+  --accent-soft: #24312a;
+  --accent-strong: #a7cdb7;
+
+  --sev-critical: #e5484d;
+  --sev-high: #e8935a;
+  --sev-medium: #d9c15a;
+  --sev-low: #6b8fa3;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg-0);
+  color: var(--text-primary);
+  font-family: "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: clamp(14px, 0.9vw + 10px, 16px);
+}
+
+/* Fluid heading scale -- one rule per level, no per-page overrides needed */
+h1 {
+  font-size: clamp(1.75rem, 1.1rem + 2vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+h2 {
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.625rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+h3 {
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.25rem);
+  font-weight: 500;
+}
+
+/* Shared layout primitives so pages don't re-declare padding/gap logic */
+.container-page {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 3vw, 40px);
+}
+
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.card:hover {
+  border-color: var(--border-strong);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

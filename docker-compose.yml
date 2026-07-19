@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  mongo:
+    image: mongo:7
+    container_name: argus-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  server:
+    build: ./server
+    container_name: argus-server
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongo:27017/argus
+      - JWT_SECRET=change-me-to-a-long-random-string
+      - INGEST_API_KEY=change-me-shared-secret
+      - CLIENT_ORIGIN=http://localhost:5173
+
+volumes:
+  mongo-data:
